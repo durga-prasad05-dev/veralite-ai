@@ -1,0 +1,49 @@
+CATEGORY_TONES = {
+    "Restaurant": "fun and exciting",
+    "Salon": "stylish and friendly",
+    "Gym": "motivational",
+    "Pharmacy": "trustworthy and direct",
+    "Dentist": "professional and calm"
+}
+
+
+def build_prompt(data):
+    category = data["category"]
+    merchant = data["merchant"]
+    trigger = data["trigger"]
+    customer = data.get("customer", {})
+
+    tone = CATEGORY_TONES.get(category, "friendly")
+
+    prompt = f"""
+Generate ONE WhatsApp-style promotional message.
+
+Category:
+{category}
+
+Tone:
+{tone}
+
+Merchant:
+- Name: {merchant['name']}
+- Rating: {merchant['rating']}
+- Offer: {merchant['offer']}
+- Location: {merchant['location']}
+
+Trigger:
+- Reason: {trigger['reason']}
+- Time: {trigger['time']}
+
+Customer:
+- Status: {customer.get('status', 'Unknown')}
+- Inactive Days: {customer.get('days', 0)}
+
+Rules:
+- Maximum 35 words
+- Sound natural
+- Mention real offer
+- Explain urgency
+- Avoid generic marketing phrases
+"""
+
+    return prompt
