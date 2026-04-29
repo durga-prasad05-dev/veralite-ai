@@ -1,0 +1,22 @@
+GENERIC_WORDS = [
+    "exciting offer",
+    "limited deal",
+    "valued customer",
+    "best prices"
+]
+
+
+def validate_message(message):
+    score = 100
+
+    if len(message.split()) > 35:
+        score -= 20
+
+    for word in GENERIC_WORDS:
+        if word.lower() in message.lower():
+            score -= 15
+
+    if "₹" not in message and "%" not in message:
+        score -= 10
+
+    return score
